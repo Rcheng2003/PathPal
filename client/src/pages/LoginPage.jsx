@@ -30,7 +30,7 @@ export default function LoginPage() {
     setPasswordError("");
     setGeneralError("");
     const data = new FormData(event.currentTarget);
-  
+
     try {
       const response = await fetch("http://localhost:3001/api/auth/login", {
         method: "POST",
@@ -43,7 +43,7 @@ export default function LoginPage() {
           password: data.get("password"),
         }),
       });
-  
+
       if (response.ok) {
         const res = await response.json();
         setLoggedIn(true);
@@ -51,40 +51,32 @@ export default function LoginPage() {
         navigate("/");
       } else {
         const errorData = await response.json();
-        
-        // Verify if errorData has the expected structure
-        console.log("Error data:", errorData);
-        
         // Display errors based on error codes
-        if (errorData.errorCode) {
-          switch (errorData.errorCode) {
-            case "MISSING_FIELDS":
-              setGeneralError("Please fill in both email and password.");
-              break;
-            case "INVALID_EMAIL":
-              setEmailError("No account found with this email.");
-              break;
-            case "INVALID_PASSWORD":
-              setPasswordError("The password you entered is incorrect.");
-              break;
-            case "VALIDATION_ERROR":
-              errorData.errors.forEach((error) => {
-                if (error.field === "email") setEmailError(error.message);
-                if (error.field === "password") setPasswordError(error.message);
-              });
-              break;
-            default:
-              setGeneralError(errorData.errorMessage || "An unexpected error occurred. Please try again.");
-          }
-        } else {
-          setGeneralError("An unexpected error occurred. Please try again.");
+        switch (errorData.errorCode) {
+          case "MISSING_FIELDS":
+            setGeneralError("Please fill in both email and password.");
+            break;
+          case "INVALID_EMAIL":
+            setEmailError("No account found with this email.");
+            break;
+          case "INVALID_PASSWORD":
+            setPasswordError("The password you entered is incorrect.");
+            break;
+          case "VALIDATION_ERROR":
+            errorData.errors.forEach((error) => {
+              if (error.field === "email") setEmailError(error.message);
+              if (error.field === "password") setPasswordError(error.message);
+            });
+            break;
+          default:
+            setGeneralError("An unexpected error occurred. Please try again.");
         }
       }
     } catch (err) {
-      console.error("Error connecting to server:", err);
+      console.error(err);
       setGeneralError("Failed to connect to the server. Please try again.");
     }
-  }  
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
