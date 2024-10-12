@@ -31,9 +31,9 @@ export default function RegisterPage() {
     setEmailError("");
     setPasswordError("");
     setGeneralError("");
-  
+    
     const data = new FormData(event.currentTarget);
-  
+
     try {
       const response = await fetch("http://localhost:3001/api/auth/register", {
         method: "POST",
@@ -47,16 +47,13 @@ export default function RegisterPage() {
           password: data.get("password"),
         }),
       });
-  
+
       const res = await response.json();
-      console.log("Response received:", res);
-  
+
       if (response.ok && res.status === "ok") {
-        alert("Registration successful! Please log in.");
         navigate("/login");
       } else {
         // Handle errors based on the response
-        console.log("Error response:", res);
         if (res.errorCode === "VALIDATION_ERROR") {
           res.errors.forEach((error) => {
             if (error.field === "firstName") setFirstNameError(error.message);
@@ -74,7 +71,7 @@ export default function RegisterPage() {
       console.error("Error connecting to server:", err);
       setGeneralError("Failed to connect to the server. Please try again.");
     }
-  }  
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
