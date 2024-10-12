@@ -18,9 +18,19 @@ const defaultTheme = createTheme();
 export default function LoginPage() {
   const navigate = useNavigate();
   const { setLoggedIn } = useAuth();
+
+  // State for error messages
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [generalError, setGeneralError] = React.useState("");
+
   async function handleSubmit(event) {
     event.preventDefault();
+    setEmailError("");
+    setPasswordError("");
+    setGeneralError("");
     const data = new FormData(event.currentTarget);
+  
     try {
       const response = await fetch("http://localhost:3001/api/auth/login", {
         method: "POST",
@@ -33,20 +43,48 @@ export default function LoginPage() {
           password: data.get("password"),
         }),
       });
+  
       if (response.ok) {
         const res = await response.json();
         setLoggedIn(true);
         alert(res.message);
+        navigate("/");
       } else {
         const errorData = await response.json();
-        alert(errorData.error); // Set error message in state
+        
+        // Verify if errorData has the expected structure
+        console.log("Error data:", errorData);
+        
+        // Display errors based on error codes
+        if (errorData.errorCode) {
+          switch (errorData.errorCode) {
+            case "MISSING_FIELDS":
+              setGeneralError("Please fill in both email and password.");
+              break;
+            case "INVALID_EMAIL":
+              setEmailError("No account found with this email.");
+              break;
+            case "INVALID_PASSWORD":
+              setPasswordError("The password you entered is incorrect.");
+              break;
+            case "VALIDATION_ERROR":
+              errorData.errors.forEach((error) => {
+                if (error.field === "email") setEmailError(error.message);
+                if (error.field === "password") setPasswordError(error.message);
+              });
+              break;
+            default:
+              setGeneralError(errorData.errorMessage || "An unexpected error occurred. Please try again.");
+          }
+        } else {
+          setGeneralError("An unexpected error occurred. Please try again.");
+        }
       }
     } catch (err) {
-      console.log(err);
-    } finally {
-      navigate("/");
+      console.error("Error connecting to server:", err);
+      setGeneralError("Failed to connect to the server. Please try again.");
     }
-  }
+  }  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -66,12 +104,7 @@ export default function LoginPage() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -81,6 +114,8 @@ export default function LoginPage() {
               name="email"
               autoComplete="email"
               autoFocus
+              error={!!emailError}
+              helperText={emailError}
             />
             <TextField
               margin="normal"
@@ -91,7 +126,14 @@ export default function LoginPage() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={!!passwordError}
+              helperText={passwordError}
             />
+            {generalError && (
+              <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                {generalError}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth

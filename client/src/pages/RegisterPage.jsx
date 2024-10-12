@@ -12,34 +12,69 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  
+  // State for error messages
+  const [firstNameError, setFirstNameError] = React.useState("");
+  const [lastNameError, setLastNameError] = React.useState("");
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [generalError, setGeneralError] = React.useState("");
+
   async function handleSubmit(event) {
     event.preventDefault();
+    setFirstNameError("");
+    setLastNameError("");
+    setEmailError("");
+    setPasswordError("");
+    setGeneralError("");
+  
     const data = new FormData(event.currentTarget);
-    const response = await fetch("http://localhost:3001/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        email: data.get("email"),
-        password: data.get("password"),
-      }),
-    });
-
-    const res = await response.json();
-
-    if (res.status === "ok") {
-      navigate("/login");
+  
+    try {
+      const response = await fetch("http://localhost:3001/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: data.get("firstName"),
+          lastName: data.get("lastName"),
+          email: data.get("email"),
+          password: data.get("password"),
+        }),
+      });
+  
+      const res = await response.json();
+      console.log("Response received:", res);
+  
+      if (response.ok && res.status === "ok") {
+        alert("Registration successful! Please log in.");
+        navigate("/login");
+      } else {
+        // Handle errors based on the response
+        console.log("Error response:", res);
+        if (res.errorCode === "VALIDATION_ERROR") {
+          res.errors.forEach((error) => {
+            if (error.field === "firstName") setFirstNameError(error.message);
+            if (error.field === "lastName") setLastNameError(error.message);
+            if (error.field === "email") setEmailError(error.message);
+            if (error.field === "password") setPasswordError(error.message);
+          });
+        } else if (res.errorCode === "EMAIL_ALREADY_EXISTS") {
+          setEmailError("An account with this email already exists.");
+        } else {
+          setGeneralError(res.errorMessage || "An unexpected error occurred. Please try again.");
+        }
+      }
+    } catch (err) {
+      console.error("Error connecting to server:", err);
+      setGeneralError("Failed to connect to the server. Please try again.");
     }
-  }
+  }  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -75,6 +110,8 @@ export default function RegisterPage() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  error={!!firstNameError}
+                  helperText={firstNameError}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -85,6 +122,8 @@ export default function RegisterPage() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  error={!!lastNameError}
+                  helperText={lastNameError}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -95,6 +134,8 @@ export default function RegisterPage() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error={!!emailError}
+                  helperText={emailError}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -106,9 +147,16 @@ export default function RegisterPage() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={!!passwordError}
+                  helperText={passwordError}
                 />
               </Grid>
             </Grid>
+            {generalError && (
+              <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                {generalError}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth

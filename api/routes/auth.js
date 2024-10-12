@@ -1,72 +1,91 @@
 const express = require("express");
-const User = require("../models/User.js");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const { body, validationResult } = require("express-validator");
+const User = require("../models/User");
 const router = express.Router();
 
-router.get("/status", async (req, res) => {
-  try {
-    // Extract the JWT from the cookie
-    const token = req.cookies.access_token;
-    if (!token) {
-      // If no token is found, the user is not logged in
-      return res.status(401).json({ isLoggedIn: false });
+// Helper function for formatting errors
+const formatValidationErrors = (errorsArray) => {
+  return errorsArray.map((error) => ({ field: error.param, message: error.msg }));
+};
+
+// Register endpoint (improved error handling)
+router.post(
+  "/register",
+  body("email").isEmail().withMessage("Must be a valid email address"),
+  body("password")
+    .isLength({ min: 8 }).withMessage("Password must be at least 8 characters long")
+    .matches(/\d/).withMessage("Password must include at least one number")
+    .matches(/[A-Z]/).withMessage("Password must include at least one uppercase letter")
+    .matches(/[!@#$%^&*]/).withMessage("Password must include at least one special character"),
+  async (req, res) => {
+    const { email, password, firstName, lastName } = req.body;
+
+    // Check validation result
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        errorCode: "VALIDATION_ERROR", 
+        errors: formatValidationErrors(errors.array())
+      });
     }
 
-    // Verify the token
-    jwt.verify(token, process.env.JWT_CODE, (err, decoded) => {
-      if (err) {
-        // If token verification fails, the user is not logged in
-        return res.status(401).json({ isLoggedIn: false });
+    try {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({
+          errorCode: "EMAIL_ALREADY_EXISTS",
+          errorMessage: "An account with this email already exists",
+        });
       }
 
-      // If token is valid, return user data and logged in status
-      // `decoded` is the object that was previously encoded into the JWT
-      return res.json({
-        isLoggedIn: true,
-        user: {
-          id: decoded.id,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          email: decoded.email,
-        },
+      const hashedPassword = await bcryptjs.hash(password, 10);
+      await User.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
       });
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ isLoggedIn: false, error: "Internal Server Error" });
-  }
-});
 
-router.post("/register", async (req, res) => {
-  try {
-    const newPassword = await bcryptjs.hash(req.body.password, 10);
-    await User.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: newPassword,
-    });
-    res.json({ status: "ok" });
-  } catch (err) {
-    res.json({ status: "error", error: "Duplicate email" });
+      res.json({ status: "ok" });
+    } catch (err) {
+      res.status(500).json({
+        errorCode: "INTERNAL_SERVER_ERROR",
+        errorMessage: "Something went wrong, please try again later",
+      });
+    }
   }
-});
+);
 
+// Login endpoint (improved error handling)
 router.post("/login", async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  const { email, password } = req.body;
 
-  if (!user) {
-    return res.status(401).json({ error: "Invalid Email" });
+  if (!email || !password) {
+    return res.status(400).json({
+      errorCode: "MISSING_FIELDS",
+      errorMessage: "Email and password are required",
+    });
   }
 
-  const isPasswordValid = await bcryptjs.compare(
-    req.body.password,
-    user.password
-  );
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        errorCode: "INVALID_EMAIL",
+        errorMessage: "No account found with this email",
+      });
+    }
 
-  if (isPasswordValid) {
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        errorCode: "INVALID_PASSWORD",
+        errorMessage: "The password you entered is incorrect",
+      });
+    }
+
     const token = jwt.sign(
       {
         id: user._id,
@@ -76,20 +95,18 @@ router.post("/login", async (req, res) => {
       },
       process.env.JWT_CODE
     );
-    return res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ message: "Login success" });
-  } else {
-    return res.status(401).json({ error: "Invalid Password" });
-  }
-});
 
-router.get("/logout", async (req, res) => {
-  res.clearCookie("access_token");
-  return res.status(200).json({ message: "logout success" });
+    return res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json({ message: "Login successful" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errorCode: "INTERNAL_SERVER_ERROR",
+      errorMessage: "Something went wrong, please try again later",
+    });
+  }
 });
 
 module.exports = router;
