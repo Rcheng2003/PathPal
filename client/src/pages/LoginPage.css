@@ -1,21 +1,90 @@
-.login-container {
-    margin-top: 64px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* General Styling for the Login Page */
+.Login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: white;
   }
   
-  .login-avatar {
-    margin: 8px;
-    background-color: #f50057; /* secondary.main color */
+  .Login-avatar {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #f50057;
   }
   
-  .error-text {
-    margin-top: 16px;
+  .Login-title {
+    font-size: 24px;
+    margin-bottom: 20px;
   }
   
-  .login-button {
-    margin-top: 24px;
-    margin-bottom: 16px;
+  .Login-form {
+    width: 100%;
+  }
+  
+  .Login-formGroup {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .Login-label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .Login-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .Login-errorBorder {
+    border-color: red;
+  }
+  
+  .Login-errorText {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .Login-generalError {
+    margin: 10px 0;
+  }
+  
+  .Login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .Login-button:hover {
+    background-color: #303f9f;
+  }
+  
+  .Login-links {
+    margin-top: 20px;
+  }
+  
+  .Login-link {
+    display: block;
+    margin-top: 10px;
+    color: #3f51b5;
+    text-decoration: none;
+  }
+  
+  .Login-link:hover {
+    text-decoration: underline;
   }
   

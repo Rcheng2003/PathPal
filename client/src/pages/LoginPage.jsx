@@ -1,29 +1,16 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../util/AuthContext";
-import "./LoginPage.css"; // Import the new CSS file
-
-const defaultTheme = createTheme();
+import "./LoginPage.css"; // Import the CSS file
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const { setLoggedIn } = useAuth();
 
   // State for error messages
-  const [emailError, setEmailError] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState("");
-  const [generalError, setGeneralError] = React.useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -79,64 +66,50 @@ export default function LoginPage() {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box className="login-container">
-          <Avatar className="login-avatar">
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              error={!!emailError}
-              helperText={emailError}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              error={!!passwordError}
-              helperText={passwordError}
-            />
-            {generalError && (
-              <Typography color="error" variant="body2" className="error-text">
-                {generalError}
-              </Typography>
-            )}
-            <Button type="submit" fullWidth variant="contained" className="login-button">
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+    <div className="Login-container">
+      <div className="Login-avatar">
+        <i className="fa fa-lock"></i>
+      </div>
+      <h1 className="Login-title">Sign in</h1>
+      <form onSubmit={handleSubmit} noValidate className="Login-form">
+        <div className="Login-formGroup">
+          <label htmlFor="email" className="Login-label">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className={`Login-input ${emailError ? "Login-errorBorder" : ""}`}
+            required
+            autoComplete="email"
+            autoFocus
+          />
+          {emailError && <small className="Login-errorText">{emailError}</small>}
+        </div>
+
+        <div className="Login-formGroup">
+          <label htmlFor="password" className="Login-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className={`Login-input ${passwordError ? "Login-errorBorder" : ""}`}
+            required
+            autoComplete="current-password"
+          />
+          {passwordError && <small className="Login-errorText">{passwordError}</small>}
+        </div>
+
+        {generalError && <p className="Login-errorText Login-generalError">{generalError}</p>}
+
+        <button type="submit" className="Login-button">
+          Sign In
+        </button>
+
+        <div className="Login-links">
+          <a href="#" className="Login-link">Forgot password?</a>
+          <a href="/register" className="Login-link">Don't have an account? Sign Up</a>
+        </div>
+      </form>
+    </div>
   );
 }
