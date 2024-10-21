@@ -1,0 +1,21 @@
+.login-container {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .login-avatar {
+    margin: 8px;
+    background-color: #f50057; /* secondary.main color */
+  }
+  
+  .error-text {
+    margin-top: 16px;
+  }
+  
+  .login-button {
+    margin-top: 24px;
+    margin-bottom: 16px;
+  }
+  
