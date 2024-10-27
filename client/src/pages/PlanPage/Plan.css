@@ -1,3 +1,4 @@
+
 .plan-container {
     background-color: #f5efe6;
     border-radius: 8px;
@@ -67,7 +68,7 @@
     outline: 2px solid #1a4d2e;
     transform: scale(1.05);
   }
-  
+
   .plan-title-form-control {
     position: relative;
     margin-bottom: 20px;
@@ -84,12 +85,21 @@
     font-weight: 800;
     color: #000;
     font-size: 1.5rem;
+    border: 1px solid #cccccc;
+    transition: border-color 0.3s ease-in-out;
   }
   
   .plan-title-text-field:focus {
     background-color: #ccc;
+    border-color: #4f6f52;
   }
   
   .plan-title-text-field:hover {
     background-color: #9e9694;
   }
+  
+  .plan-title-text-field:hover,
+  .plan-title-form-control:hover {
+    cursor: text;
+  }
+  
