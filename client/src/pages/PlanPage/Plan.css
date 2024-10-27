@@ -1,5 +1,5 @@
 /* General styling */
-.container {
+.plan-container {
     background-color: #f5efe6;
     border-radius: 8px;
     border: 1px solid #e8dfca;
@@ -8,26 +8,26 @@
     overflow: hidden;
   }
   
-  .grid-container {
+  .plan-grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
   }
   
-  .list-container {
+  .plan-list-container {
     background-color: #e8dfca;
     border-radius: 8px;
     overflow-y: auto;
     height: calc(100vh - 64px);
   }
   
-  .map-container {
+  .plan-map-container {
     height: 100%;
     background-color: #fff;
   }
   
-  .explore-button,
-  .add-button {
+  .plan-explore-button,
+  .plan-add-button {
     background-color: #4f6f52;
     color: #ffffff;
     padding: 10px 20px;
@@ -38,17 +38,17 @@
     transition: background-color 0.3s ease;
   }
   
-  .explore-button:hover,
-  .add-button:hover {
+  .plan-explore-button:hover,
+  .plan-add-button:hover {
     background-color: #1a4d2e;
   }
   
-  .titleFormControl {
+  .plan-title-form-control {
     position: relative;
     transition: all 0.3s ease-in-out;
   }
   
-  .titleTextField {
+  .plan-title-text-field {
     background-color: #e8dfca;
     width: auto;
     max-width: 100%;
@@ -60,10 +60,10 @@
     font-size: 1.5rem;
   }
   
-  .titleTextField:focus {
+  .plan-title-text-field:focus {
     background-color: #ccc;
   }
   
-  .titleTextField:hover {
+  .plan-title-text-field:hover {
     background-color: #9e9694;
   }

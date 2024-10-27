@@ -132,19 +132,19 @@ export default function Plan() {
   return (
     <>
       <Header />
-      <div className="container">
-        <div className="grid-container">
-          <div className="grid-item">
-            <div className="list-container">
+      <div className="plan-container">
+        <div className="plan-grid-container">
+          <div className="plan-grid-item">
+            <div className="plan-list-container">
               <button
-                className="explore-button"
+                className="plan-explore-button"
                 onClick={() => navigate(`/plan/${planCode}/explore`)}
               >
                 Explore Places
               </button>
-              <div className="titleFormControl">
+              <div className="plan-title-form-control">
                 <input
-                  className="titleTextField"
+                  className="plan-title-text-field"
                   style={{ width: calculateWidth() }}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -172,13 +172,13 @@ export default function Plan() {
                   />
                 ))}
 
-              <button className="add-button" onClick={handleAdd}>
+              <button className="plan-add-button" onClick={handleAdd}>
                 Add a new list
               </button>
             </div>
           </div>
-          <div className="grid-item">
-            <div className="map-container">
+          <div className="plan-grid-item">
+            <div className="plan-map-container">
               <PlanMap
                 places={places}
                 coords={{ lat: planInfo.lat, lng: planInfo.lng }}
