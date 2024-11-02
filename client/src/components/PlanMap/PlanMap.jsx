@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
-import {
-  FormControl,
-  TextField,
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Grid,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-} from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import "./PlanMap.css";
 
@@ -42,7 +29,6 @@ export default function PlanMap({ places, coords, setChildClicked }) {
     lng: coords.lng,
   });
 
-  // Function to generate a random color
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
     let color = "#";
@@ -73,13 +59,7 @@ export default function PlanMap({ places, coords, setChildClicked }) {
   };
 
   return (
-    <div
-      style={{
-        height: "calc(100vh - 64px)",
-        width: "100%",
-        position: "relative",
-      }}
-    >
+    <div className="map-container">
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
         center={center}
