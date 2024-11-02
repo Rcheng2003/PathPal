@@ -1,29 +1,44 @@
+/* Link styling */
 .plan-card-link {
     text-decoration: none;
   }
   
+  /* Card container */
   .plan-card {
     flex: 1 0 auto;
     margin: 10px;
     background-color: #f5efe6;
     position: relative;
     cursor: pointer;
-    border: 1px solid #1a4d2e;
-    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: 1px solid #d1ccc0;
   }
   
   .plan-card-hover {
     background-color: #e8dfca;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
   
+  /* Media section */
   .plan-card-media {
     height: 160px;
     background-size: cover;
     background-position: center;
+    transition: transform 0.3s ease;
   }
   
+  .plan-card:hover .plan-card-media {
+    transform: scale(1.05);
+  }
+  
+  /* Card content */
   .plan-card-content {
     padding: 16px;
+    background-color: #fdf9f4;
   }
   
   .plan-card-title {
@@ -36,15 +51,18 @@
     margin: 0;
   }
   
+  /* Delete icon */
   .plan-card-delete-icon {
     position: absolute;
     top: 10px;
     right: 10px;
     background: none;
     border: none;
-    color: inherit;
+    color: #d1ccc0;
     cursor: pointer;
     display: none;
+    font-size: 1.2rem;
+    transition: color 0.2s ease, transform 0.2s ease;
   }
   
   .plan-card:hover .plan-card-delete-icon,
@@ -53,6 +71,7 @@
   }
   
   .plan-card-delete-icon:hover {
-    color: red;
+    color: #e74c3c;
+    transform: scale(1.2);
   }
   
