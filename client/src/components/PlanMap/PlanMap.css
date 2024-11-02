@@ -1,8 +1,10 @@
-/* Container for the map */
+/* Map container */
 .map-container {
   height: calc(100vh - 64px);
   width: 100%;
   position: relative;
+  background-color: #eaeaea;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Marker styling */
@@ -17,15 +19,18 @@
   align-items: center;
   justify-content: center;
   border: 2px solid white;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .custom-marker:hover {
-  transform: scale(1.1) rotate(45deg);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  z-index: 2;
+  transform: scale(1.15) rotate(45deg);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+  background-color: #1a4d2e;
 }
 
+/* Inner circle inside the marker */
 .inner-circle {
   width: 20px;
   height: 20px;
@@ -34,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color: white;
   position: absolute;
@@ -53,30 +58,48 @@
   background-color: #333;
   color: #fff;
   border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   z-index: 100;
   white-space: nowrap;
+  font-size: 0.85rem;
   display: none;
 }
 
 .custom-marker:hover .tooltip {
   display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Card styling */
 .custom-card {
   width: 100%;
   max-width: 300px;
-  background-color: #f5efe6;
+  background-color: #fdf9f4;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .custom-card-media {
   height: 160px;
   background-size: cover;
   background-position: center;
+  border-bottom: 2px solid #ddd;
 }
 
 .custom-card-content {
@@ -84,10 +107,11 @@
 }
 
 .custom-card-title {
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #1a4d2e;
   margin: 0 0 10px 0;
+  text-transform: capitalize;
 }
 
 /* Form styling */
@@ -95,6 +119,10 @@
   width: 100%;
   max-width: 400px;
   margin: 20px auto;
+  padding: 20px;
+  background-color: #f5efe6;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .custom-text-field {
@@ -103,26 +131,34 @@
   border-radius: 4px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.2s ease;
 }
 
 .custom-text-field:focus {
   border-color: #1a4d2e;
   outline: none;
+  box-shadow: 0 0 4px rgba(26, 77, 46, 0.3);
 }
 
+/* Button styling */
 .custom-button {
   display: inline-block;
   padding: 10px 20px;
   border-radius: 4px;
   background-color: #1a4d2e;
   color: white;
+  font-weight: bold;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .custom-button:hover {
   background-color: #145231;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Dialog styling */
@@ -131,16 +167,19 @@
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: auto;
 }
 
 .custom-dialog-title {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 10px;
   color: #333;
 }
 
 .custom-dialog-content {
-  font-size: 16px;
+  font-size: 1rem;
   color: #555;
+  line-height: 1.5;
 }
