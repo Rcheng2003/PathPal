@@ -1,48 +1,6 @@
 import React, { useState } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-
-const useCardStyles = {
-  card: {
-    flex: "1 0 auto",
-    margin: "10px",
-    backgroundColor: "#F5EFE6",
-    position: "relative", // Needed for the delete icon positioning
-    "&:hover": {
-      backgroundColor: "#E8DFCA",
-    },
-    cursor: "pointer",
-    border: "1px solid #1A4D2E",
-  },
-  media: {
-    height: 160,
-  },
-  title: {
-    color: "#1A4D2E",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  },
-  deleteIcon: {
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-    display: "none",
-    "&:hover": {
-      color: "red",
-    },
-  },
-  cardHover: {
-    "&:hover $deleteIcon": {
-      display: "block", // Show delete icon on hover
-    },
-  },
-};
+import "./PlanCard.css";
 
 export default function PlanCard({ userPlan, isMoving, onDelete, planIndex }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -66,41 +24,28 @@ export default function PlanCard({ userPlan, isMoving, onDelete, planIndex }) {
     <a
       onClick={handleClick}
       href={`/plan/${userPlan._id}`}
-      style={{ textDecoration: "none" }}
+      className="plan-card-link"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Card
-        sx={{
-          ...useCardStyles.card,
-          ...(isHovered && useCardStyles.cardHover),
-        }}
-      >
-        <CardMedia
-          sx={useCardStyles.media}
-          image="/static/images/temp-background.jpeg"
+      <div className={`plan-card ${isHovered ? "plan-card-hover" : ""}`}>
+        <div
+          className="plan-card-media"
+          style={{ backgroundImage: "url('/static/images/temp-background.jpeg')" }}
           title={userPlan.title}
         />
-        <CardContent>
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            style={useCardStyles.title}
-          >
-            {userPlan.title}
-          </Typography>
-        </CardContent>
+        <div className="plan-card-content">
+          <h6 className="plan-card-title">{userPlan.title}</h6>
+        </div>
 
         {/* Delete Icon */}
-        <IconButton
-          sx={useCardStyles.deleteIcon}
-          onClick={handleDelete} // Only delete will be triggered when clicked
-          style={{ display: isHovered ? "block" : "none" }}
+        <button
+          className={`plan-card-delete-icon ${isHovered ? "visible" : ""}`}
+          onClick={handleDelete}
         >
-          <DeleteIcon />
-        </IconButton>
-      </Card>
+          🗑️
+        </button>
+      </div>
     </a>
   );
 }
