@@ -5,7 +5,7 @@ import PlaceDetails from "../PlaceDetails/PlaceDetails";
 export default function ExploreList({ plan, type, setType, places, lists }) {
   return (
     <div className="ExploreList-container">
-      <div className="ExploreList-form">
+      <div className="ExploreList-form-container">
         <label htmlFor="type-selector" className="ExploreList-label">
           Type
         </label>
@@ -20,7 +20,7 @@ export default function ExploreList({ plan, type, setType, places, lists }) {
           <option value={"hotels"}>Hotels</option>
         </select>
       </div>
-      <div className="ExploreList-placesContainer">
+      <div className="ExploreList-places-container">
         {places?.map(
           (place, i) =>
             place["name"] && (
@@ -29,7 +29,7 @@ export default function ExploreList({ plan, type, setType, places, lists }) {
                 place={place}
                 lists={lists}
                 key={i}
-                className="ExploreList-placeCard"
+                className="ExploreList-place-card"
               />
             )
         )}

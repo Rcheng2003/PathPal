@@ -137,11 +137,6 @@ export default function PlaceDetails({ plan, place, lists }) {
         >
           {lists.map((listItem) => (
             <option key={listItem._id} value={listItem._id}>
-              <input
-                type="checkbox"
-                checked={added.indexOf(listItem._id) > -1}
-                readOnly
-              />
               {listItem.name}
             </option>
           ))}

@@ -3,49 +3,43 @@
   flex-direction: column;
   align-items: center;
   margin: 20px;
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.ExploreList-form {
+.ExploreList-form-container {
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  width: 200px;
+  align-items: center;
+  width: 100%;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ExploreList-label {
-  margin-bottom: 8px;
-  font-size: 14px;
+  font-size: 1.2rem;
+  font-weight: bold;
   color: #333;
+  margin-bottom: 8px;
 }
 
 .ExploreList-select {
   width: 100%;
-  padding: 8px;
-  font-size: 14px;
+  padding: 10px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  color: #333;
+  border-radius: 6px;
   outline: none;
 }
 
-.ExploreList-select:focus {
-  border-color: #1976d2; /* Matches MUI primary color */
-  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
-}
-
-.ExploreList-placesContainer {
+.ExploreList-places-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   width: 100%;
-}
-
-.ExploreList-placeCard {
-  transition: transform 0.3s ease-in-out;
-}
-
-.ExploreList-placeCard:hover {
-  transform: scale(1.05);
 }
