@@ -1,23 +1,26 @@
 import React from "react";
 import "./ExploreList.css";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import PlaceDetails from "../PlaceDetails/PlaceDetails";
 
 export default function ExploreList({ plan, type, setType, places, lists }) {
   return (
-    <div className="explore-list-container">
-      <FormControl className="explore-list-form" variant="standard">
-        <InputLabel>Type</InputLabel>
-        <Select value={type} onChange={(e) => setType(e.target.value)}>
-          <MenuItem value={"restaurants"}>Restaurants</MenuItem>
-          <MenuItem value={"attractions"}>Attractions</MenuItem>
-          <MenuItem value={"hotels"}>Hotels</MenuItem>
-        </Select>
-      </FormControl>
-      <div className="places-container">
+    <div className="ExploreList-container">
+      <div className="ExploreList-form">
+        <label htmlFor="type-selector" className="ExploreList-label">
+          Type
+        </label>
+        <select
+          id="type-selector"
+          className="ExploreList-select"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+        >
+          <option value={"restaurants"}>Restaurants</option>
+          <option value={"attractions"}>Attractions</option>
+          <option value={"hotels"}>Hotels</option>
+        </select>
+      </div>
+      <div className="ExploreList-placesContainer">
         {places?.map(
           (place, i) =>
             place["name"] && (
@@ -26,7 +29,7 @@ export default function ExploreList({ plan, type, setType, places, lists }) {
                 place={place}
                 lists={lists}
                 key={i}
-                className="place-card"
+                className="ExploreList-placeCard"
               />
             )
         )}
