@@ -1,39 +1,44 @@
 .PlaceDetails-card {
-  margin: 15px;
-  padding: 10px;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  background: linear-gradient(145deg, #f8f9fa, #e9ecef);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #ffffff;
+  border: 4px solid #4caf50; /* Matches nav bar color */
+  border-radius: 2px;
   overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .PlaceDetails-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.PlaceDetails-image-wrapper {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-bottom: 3px solid #4caf50;
 }
 
 .PlaceDetails-image {
   width: 100%;
-  height: 160px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
 }
 
 .PlaceDetails-details {
+  padding: 15px;
   text-align: center;
-  margin-bottom: 15px;
 }
 
 .PlaceDetails-title {
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0;
-  color: #343a40;
+  color: #333;
 }
 
 .PlaceDetails-subcategory {
@@ -44,13 +49,16 @@
 
 .PlaceDetails-actions {
   width: 100%;
+  padding: 15px;
+  background: #f9f9f9;
+  border-top: 1px solid #ddd;
 }
 
 .PlaceDetails-label {
   font-size: 1.1rem;
-  font-weight: 500;
-  display: block;
+  font-weight: 600;
   margin-bottom: 8px;
+  display: block;
   color: #495057;
 }
 
@@ -58,20 +66,15 @@
   width: 100%;
   padding: 10px;
   font-size: 1rem;
-  border: 1px solid #ced4da;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  background: #f8f9fa;
+  background: #ffffff;
   color: #212529;
-  transition: border-color 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .PlaceDetails-select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.PlaceDetails-select option {
-  padding: 8px 10px;
-  font-size: 0.95rem;
-  color: #495057;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }

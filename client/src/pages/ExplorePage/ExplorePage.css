@@ -26,7 +26,6 @@
   width: 100%;
   height: 50vh;
   overflow-y: auto;
-  padding: 20px;
   background-color: #ffffff;
   box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #e0e0e0;
@@ -36,7 +35,7 @@
 
 @media (min-width: 768px) {
   .ExplorePage-list {
-    width: 35%;
+    width: 30%;
     height: 100vh;
   }
 }
@@ -75,7 +74,7 @@
 
 @media (min-width: 768px) {
   .ExplorePage-map {
-    width: 65%;
+    width: 70%;
     height: 100vh;
   }
 }

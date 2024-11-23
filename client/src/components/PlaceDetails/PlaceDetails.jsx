@@ -114,11 +114,13 @@ export default function PlaceDetails({ plan, place, lists }) {
 
   return (
     <div className="PlaceDetails-card">
-      <img
-        className="PlaceDetails-image"
-        src={place?.photo?.images?.small?.url || defaultImageUrl}
-        alt={place.name}
-      />
+      <div className="PlaceDetails-image-wrapper">
+        <img
+          className="PlaceDetails-image"
+          src={place?.photo?.images?.small?.url || defaultImageUrl}
+          alt={place.name}
+        />
+      </div>
       <div className="PlaceDetails-details">
         <h2 className="PlaceDetails-title">{place.name}</h2>
         <p className="PlaceDetails-subcategory">{place.subcategory_ranking}</p>
